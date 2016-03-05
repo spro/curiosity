@@ -16,16 +16,20 @@ App = React.createClass
 
 RecentBookmarks = React.createClass
     getInitialState: ->
+        loading: true
         bookmarks: []
 
     componentDidMount: ->
         fetchJSON('/bookmarks.json').then (bookmarks) =>
-            @setState {bookmarks}
+            @setState {bookmarks, loading: false}
 
     render: ->
-        <div>
-            {@state.bookmarks.map @renderBookmark}
-        </div>
+        if @state.loading
+            <p>Loading...</p>
+        else
+            <div>
+                {@state.bookmarks.map @renderBookmark}
+            </div>
 
     renderBookmark: (bookmark, i) ->
         <div key=i>
