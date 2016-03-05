@@ -19,4 +19,9 @@ app.post '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:engine', 'createBookmark', new_bookmark, (err, created_bookmark) ->
         res.json created_bookmark
 
+app.delete '/bookmarks/:bookmark_id.json', (req, res) ->
+    bookmark_id = req.params.bookmark_id
+    client.remote 'curiosity:data', 'deleteBookmark', bookmark_id, (err) ->
+        res.json {ok: !err?}
+
 app.start()
