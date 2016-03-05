@@ -30,13 +30,21 @@ h1
 .add-bookmark
     margin: $padding.default 0
     background: $colors.lightest_gray
+    display: flex
 
     input, button
+        display: block
         font: inherit
         background: transparent
         border: none
         outline: none
         padding: 0.5em 1em
+
+    input
+        flex-grow: 1
+
+    button
+        flex-grow: 0
 
 // Bookmarks
 // -----------------------------------------------------------------------------
