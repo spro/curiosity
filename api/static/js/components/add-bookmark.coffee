@@ -4,13 +4,13 @@ Dispatcher = require '../dispatcher'
 AddBookmark = React.createClass
     getInitialState: ->
         url: ''
-        name: ''
+        title: ''
 
     doCreate: (e) ->
         e.preventDefault()
 
         new_bookmark =
-            name: @state.name
+            title: @state.title
             url: @state.url
 
         Dispatcher.createBookmark(new_bookmark).onValue =>
@@ -20,14 +20,14 @@ AddBookmark = React.createClass
         url = e.target.value
         @setState {url}
 
-    changeName: (e) ->
-        name = e.target.value
-        @setState {name}
+    changeTitle: (e) ->
+        title = e.target.value
+        @setState {title}
 
     render: ->
         <form onSubmit=@doCreate className='add-bookmark'>
             <input value=@state.url placeholder='url' onChange=@changeUrl />
-            <input value=@state.name placeholder='name' onChange=@changeName />
+            <input value=@state.title placeholder='title' onChange=@changeTitle />
             <button>Add</button>
         </form>
 

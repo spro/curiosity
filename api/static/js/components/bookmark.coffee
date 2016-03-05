@@ -7,7 +7,7 @@ Bookmark = React.createClass
 
     render: ->
         <div className='bookmark'>
-            <a href=@props.bookmark.url>{@props.bookmark.name}</a>
+            <a href=@props.bookmark.url className='title'>{@props.bookmark.title}</a>
             <span className='domain'>{@props.bookmark.domain}</span>
             <div className='actions'>
                 <a onClick=@delete>Delete</a>

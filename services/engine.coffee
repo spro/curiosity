@@ -8,11 +8,11 @@ parseDomain = (url) ->
 
 fillBookmark = (new_bookmark, cb) ->
     new_bookmark.domain = parseDomain new_bookmark.url
-    if new_bookmark.name
+    if new_bookmark.title
         cb null, new_bookmark
     else
         client.remote 'curiosity:scraper', 'getTitle', new_bookmark.url, (err, title) ->
-            new_bookmark.name = title
+            new_bookmark.title = title
             cb null, new_bookmark
 
 createBookmark = (new_bookmark, cb) ->

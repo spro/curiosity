@@ -13,7 +13,7 @@ app.get '/bookmarks.json', (req, res) ->
 
 app.post '/bookmarks.json', (req, res) ->
     new_bookmark =
-        name: req.body.name
+        title: req.body.title
         url: req.body.url
 
     client.remote 'curiosity:engine', 'createBookmark', new_bookmark, (err, created_bookmark) ->
