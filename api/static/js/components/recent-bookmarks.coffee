@@ -8,7 +8,7 @@ RecentBookmarks = React.createClass
         bookmarks: []
 
     componentDidMount: ->
-        Dispatcher.findBookmarks().then (bookmarks) =>
+        Dispatcher.findBookmarks().onValue (bookmarks) =>
             @setState {bookmarks, loading: false}
 
     render: ->

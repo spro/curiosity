@@ -1,3 +1,5 @@
+Kefir = require 'kefir'
+
 fetchJSON = (method, url, data) ->
     if method == 'post'
         fetch_options = {
@@ -9,7 +11,9 @@ fetchJSON = (method, url, data) ->
         fetch_options = {
             method: 'get',
         }
-    fetch(url, fetch_options).then (res) -> res.json()
+    fp = fetch(url, fetch_options).then (res) -> res.json()
+    f$ = Kefir.fromPromise fp
+    return f$
 
 Dispatcher =
     findBookmarks: ->

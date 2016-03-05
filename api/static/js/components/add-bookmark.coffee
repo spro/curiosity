@@ -13,7 +13,7 @@ AddBookmark = React.createClass
             name: @state.name
             url: @state.url
 
-        Dispatcher.createBookmark(new_bookmark).then =>
+        Dispatcher.createBookmark(new_bookmark).onValue =>
             @setState @getInitialState()
 
     changeUrl: (e) ->
