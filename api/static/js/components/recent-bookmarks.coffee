@@ -9,12 +9,12 @@ RecentBookmarks = React.createClass
 
     componentDidMount: ->
         Dispatcher.findBookmarks().onValue @foundBookmarks
-        Dispatcher.bookmarkAdded.onValue @addedBookmark
+        Dispatcher.bookmarkCreated.onValue @createdBookmark
 
     foundBookmarks: (bookmarks) ->
         @setState {bookmarks, loading: false}
 
-    addedBookmark: (bookmark) ->
+    createdBookmark: (bookmark) ->
         bookmarks = @state.bookmarks.concat [bookmark]
         @setState {bookmarks}
 
