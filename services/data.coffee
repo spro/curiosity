@@ -20,6 +20,14 @@ updateBookmark = (bookmark_id, bookmark_update, cb) ->
     query = {_id: mongo.ObjectID bookmark_id}
     db.collection('bookmarks').update query, {$set: bookmark_update}, cb
 
+tagBookmark = (bookmark_id, tag, cb) ->
+    query = {_id: mongo.ObjectID bookmark_id}
+    db.collection('bookmarks').update query, {$push: {tags: tag}}, cb
+
+untagBookmark = (bookmark_id, tag, cb) ->
+    query = {_id: mongo.ObjectID bookmark_id}
+    db.collection('bookmarks').update query, {$pull: {tags: tag}}, cb
+
 deleteBookmark = (bookmark_id, cb) ->
     query = {_id: mongo.ObjectID bookmark_id}
     db.collection('bookmarks').remove query, cb
@@ -29,4 +37,6 @@ new somata.Service 'curiosity:data', {
     createBookmark
     updateBookmark
     deleteBookmark
+    tagBookmark
+    untagBookmark
 }

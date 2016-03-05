@@ -24,4 +24,16 @@ app.delete '/bookmarks/:bookmark_id.json', (req, res) ->
     client.remote 'curiosity:data', 'deleteBookmark', bookmark_id, (err) ->
         res.json {ok: !err?}
 
+app.post '/bookmarks/:bookmark_id/tags.json', (req, res) ->
+    bookmark_id = req.params.bookmark_id
+    tag = req.body.tag
+    client.remote 'curiosity:data', 'tagBookmark', bookmark_id, tag, (err) ->
+        res.json {ok: !err?}
+
+app.delete '/bookmarks/:bookmark_id/tags/:tag.json', (req, res) ->
+    bookmark_id = req.params.bookmark_id
+    tag = req.params.tag
+    client.remote 'curiosity:data', 'untagBookmark', bookmark_id, tag, (err) ->
+        res.json {ok: !err?}
+
 app.start()
