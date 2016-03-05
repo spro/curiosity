@@ -5,9 +5,17 @@ AddBookmark = React.createClass
     getInitialState: ->
         url: ''
         title: ''
+        errors: null
+
+    validate: ->
+        if !@state.url
+            @setState errors: url: "Enter a URL"
+            return false
+        return true
 
     doCreate: (e) ->
         e.preventDefault()
+        return if !@validate()
 
         new_bookmark =
             title: @state.title
