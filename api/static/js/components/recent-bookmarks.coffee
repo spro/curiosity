@@ -1,4 +1,5 @@
 React = require 'react'
+Bookmark = require './bookmark'
 Dispatcher = require '../dispatcher'
 
 RecentBookmarks = React.createClass
@@ -15,12 +16,7 @@ RecentBookmarks = React.createClass
             <p>Loading...</p>
         else
             <div>
-                {@state.bookmarks.map @renderBookmark}
+                {@state.bookmarks.map (bookmark, i) -> <Bookmark bookmark=bookmark key=i />}
             </div>
-
-    renderBookmark: (bookmark, i) ->
-        <div key=i>
-            <a href=bookmark.url>{bookmark.name}</a>
-        </div>
 
 module.exports = RecentBookmarks
