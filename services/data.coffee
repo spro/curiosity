@@ -16,7 +16,12 @@ createBookmark = (new_bookmark, cb) ->
     db.collection('bookmarks').insert new_bookmark, (err, inserted) ->
         cb err, inserted?.ops?[0] # Mongo driver insert response is weird
 
+updateBookmark = (bookmark_id, bookmark_update, cb) ->
+    query = {_id: mongo.ObjectID bookmark_id}
+    db.collection('bookmarks').update query, {$set: bookmark_update}, cb
+
 new somata.Service 'curiosity:data', {
     findBookmarks
     createBookmark
+    updateBookmark
 }
