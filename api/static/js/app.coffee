@@ -5,6 +5,16 @@ fetchJSON = (url) ->
     fetch(url).then (res) -> res.json()
 
 App = React.createClass
+    render: ->
+        <div>
+            <h1>Curiosity Browser</h1>
+            <h2>Add a bookmark</h2>
+            <h2>Recent bookmarks</h2>
+            <RecentBookmarks />
+            <h2>Recent tags</h2>
+        </div>
+
+RecentBookmarks = React.createClass
     getInitialState: ->
         bookmarks: []
 
@@ -14,11 +24,7 @@ App = React.createClass
 
     render: ->
         <div>
-            <h1>Curiosity Browser</h1>
-            <h2>Add a bookmark</h2>
-            <h2>Recent bookmarks</h2>
             {@state.bookmarks.map @renderBookmark}
-            <h2>Recent tags</h2>
         </div>
 
     renderBookmark: (bookmark) ->
