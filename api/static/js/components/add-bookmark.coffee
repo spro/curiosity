@@ -1,6 +1,9 @@
 React = require 'react'
 Dispatcher = require '../dispatcher'
 
+validUrl = (url) ->
+    url.match /^https?:\/\/[^.]+\.[^\/]+/
+
 AddBookmark = React.createClass
     getInitialState: ->
         url: ''
@@ -10,6 +13,9 @@ AddBookmark = React.createClass
     validate: ->
         if !@state.url
             @setState errors: url: "Enter a URL"
+            return false
+        else if !validUrl(@state.url)
+            @setState errors: url: "Enter a valid URL"
             return false
         return true
 
