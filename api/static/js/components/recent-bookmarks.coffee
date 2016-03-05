@@ -13,9 +13,9 @@ RecentBookmarks = React.createClass
 
     render: ->
         if @state.loading
-            <p>Loading...</p>
+            <p className='bookmarks loading'>Loading...</p>
         else
-            <div>
+            <div className='bookmarks'>
                 {@state.bookmarks.map (bookmark, i) -> <Bookmark bookmark=bookmark key=i />}
             </div>
 
