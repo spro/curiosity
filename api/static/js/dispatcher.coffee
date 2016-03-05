@@ -1,4 +1,5 @@
 Kefir = require 'kefir'
+KefirBus = require 'kefir-bus'
 
 fetchJSON = (method, url, data) ->
     if method == 'post'
@@ -21,5 +22,9 @@ Dispatcher =
 
     createBookmark: (new_bookmark) ->
         fetchJSON('post', '/bookmarks.json', new_bookmark)
+            .onValue (created_bookmark) ->
+                Dispatcher.bookmarkAdded.emit created_bookmark
+
+    bookmarkAdded: KefirBus()
 
 module.exports = Dispatcher
