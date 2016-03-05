@@ -10,7 +10,7 @@ fetchJSON = (method, url, data) ->
         }
     else
         fetch_options = {
-            method: 'get',
+            method: method
         }
     fp = fetch(url, fetch_options).then (res) -> res.json()
     f$ = Kefir.fromPromise fp
