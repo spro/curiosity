@@ -16,7 +16,7 @@ app.post '/bookmarks.json', (req, res) ->
         name: req.body.name
         url: req.body.url
 
-    client.remote 'curiosity:data', 'createBookmark', new_bookmark, (err, created_bookmark) ->
+    client.remote 'curiosity:engine', 'createBookmark', new_bookmark, (err, created_bookmark) ->
         res.json created_bookmark
 
 app.start()
