@@ -11,6 +11,10 @@ RecentBookmarks = React.createClass
         Dispatcher.findBookmarks().onValue (bookmarks) =>
             @setState {bookmarks, loading: false}
 
+        Dispatcher.bookmarkAdded.onValue (bookmark) =>
+            bookmarks = @state.bookmarks.concat [bookmark]
+            @setState {bookmarks}
+
     render: ->
         if @state.loading
             <p className='bookmarks loading'>Loading...</p>
