@@ -1,7 +1,7 @@
 React = require 'react'
 
 Bookmark = ({bookmark}) ->
-    <div>
+    <div className='bookmark'>
         <a href=bookmark.url>{bookmark.name}</a>
         <span className='domain'>{bookmark.domain}</span>
     </div>

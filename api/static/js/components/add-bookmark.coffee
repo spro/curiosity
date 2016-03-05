@@ -25,7 +25,7 @@ AddBookmark = React.createClass
         @setState {name}
 
     render: ->
-        <form onSubmit=@doCreate>
+        <form onSubmit=@doCreate className='add-bookmark'>
             <input value=@state.url placeholder='url' onChange=@changeUrl />
             <input value=@state.name placeholder='name' onChange=@changeName />
             <button>Add</button>
