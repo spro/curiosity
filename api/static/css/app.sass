@@ -1,5 +1,9 @@
 $colors
+    light_gray: #999
     lightest_gray: #f7f7f7
+
+$fonts
+    default: 15px
 
 $padding
     default: 20px
@@ -10,10 +14,13 @@ $padding
     padding: 0
 
 body
-    font: 14px/20px 'Helvetica Neue', Helvetica, sans-serif
+    font: $fonts.default/20px 'Helvetica Neue', Helvetica, sans-serif
     background: $colors.lightest_gray
 
 #app
     background: #fff
-    margin: $padding.default
-    padding: $padding.large
+    padding: $padding.default
+
+h1
+    font-size: $fonts.default
+
