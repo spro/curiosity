@@ -27,8 +27,8 @@ RecentBookmarks = React.createClass
             {@state.bookmarks.map @renderBookmark}
         </div>
 
-    renderBookmark: (bookmark) ->
-        <div>
+    renderBookmark: (bookmark, i) ->
+        <div key=i>
             <a href=bookmark.url>{bookmark.name}</a>
         </div>
 
