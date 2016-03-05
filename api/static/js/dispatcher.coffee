@@ -16,21 +16,44 @@ fetchJSON = (method, url, data) ->
     f$ = Kefir.fromPromise fp
     return f$
 
+Store =
+    bookmarks: []
+
 Dispatcher =
+
+    # Actions
+
     findBookmarks: ->
         fetchJSON('get', '/bookmarks.json')
+            .onValue (bookmarks) ->
+                Dispatcher.setBookmarks bookmarks
 
     createBookmark: (new_bookmark) ->
         fetchJSON('post', '/bookmarks.json', new_bookmark)
             .onValue (created_bookmark) ->
-                Dispatcher.bookmarkCreated.emit created_bookmark
+                Dispatcher.createdBookmark created_bookmark
 
     deleteBookmark: (bookmark_id) ->
         fetchJSON('delete', "/bookmarks/#{bookmark_id}.json")
             .onValue ->
-                Dispatcher.bookmarkDeleted.emit bookmark_id
+                Dispatcher.deletedBookmark bookmark_id
 
-    bookmarkCreated: KefirBus()
-    bookmarkDeleted: KefirBus()
+    # Streams
+
+    bookmarks$: KefirBus()
+
+    # Stream logic
+
+    setBookmarks: (bookmarks) ->
+        Store.bookmarks = bookmarks
+        Dispatcher.bookmarks$.emit bookmarks
+
+    createdBookmark: (bookmark) ->
+        bookmarks = Store.bookmarks.concat [bookmark]
+        Dispatcher.setBookmarks bookmarks
+
+    deletedBookmark: (bookmark_id) ->
+        bookmarks = Store.bookmarks.filter (b) -> b._id != bookmark_id
+        Dispatcher.setBookmarks bookmarks
 
 module.exports = Dispatcher
