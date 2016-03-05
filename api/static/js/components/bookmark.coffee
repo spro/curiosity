@@ -1,9 +1,10 @@
 React = require 'react'
 
-Bookmark = ({bookmark}) ->
-    <div className='bookmark'>
-        <a href=bookmark.url>{bookmark.name}</a>
-        <span className='domain'>{bookmark.domain}</span>
-    </div>
+Bookmark = React.createClass
+    render: ->
+        <div className='bookmark'>
+            <a href=@props.bookmark.url>{@props.bookmark.name}</a>
+            <span className='domain'>{@props.bookmark.domain}</span>
+        </div>
 
 module.exports = Bookmark
