@@ -4,7 +4,7 @@ async = require 'async'
 client = new somata.Client
 
 parseDomain = (url) ->
-    if matched = url.match(/^http:\/\/([^\/]+)\//)
+    if matched = url.match(/^https?:\/\/([^\/]+)\//)
         matched[1]
 
 setDomain = (bookmark, cb) ->
