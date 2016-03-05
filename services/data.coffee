@@ -1,18 +1,20 @@
 somata = require 'somata'
+mongo = require 'mongodb'
 
-bookmarks = [
-    {_id: 1, url: 'http://prontotype.us/', name: 'Prontotype'}
-    {_id: 2, url: 'http://areyoutryna.com/', name: 'Tryna'}
-    {_id: 3, url: 'http://levelsolar.com/', name: 'Level Solar'}
-]
+db = new mongo.Db(
+    'curiosity',
+    mongo.Server('localhost', 27017),
+    safe: true
+)
+
+db.open()
 
 findBookmarks = (cb) ->
-    cb null, bookmarks
+    db.collection('bookmarks').find().toArray cb
 
 createBookmark = (new_bookmark, cb) ->
-    new_bookmark._id = bookmarks.length + 1
-    bookmarks.push new_bookmark
-    cb null, new_bookmark
+    db.collection('bookmarks').insert new_bookmark, (err, inserted) ->
+        cb err, inserted?.ops?[0] # Mongo driver insert response is weird
 
 new somata.Service 'curiosity:data', {
     findBookmarks
