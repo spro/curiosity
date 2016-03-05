@@ -14,6 +14,13 @@ fetchJSON = (method, url, data) ->
         }
     fetch(url, fetch_options).then (res) -> res.json()
 
+Dispatcher =
+    findBookmarks: ->
+        fetchJSON('get', '/bookmarks.json')
+
+    createBookmark: (new_bookmark) ->
+        fetchJSON('post', '/bookmarks.json', new_bookmark)
+
 App = React.createClass
     render: ->
         <div>
@@ -37,7 +44,7 @@ AddBookmark = React.createClass
             name: @state.name
             url: @state.url
 
-        fetchJSON('post', '/bookmarks.json', new_bookmark).then =>
+        Dispatcher.createBookmark(new_bookmark).then =>
             @setState @getInitialState()
 
     changeUrl: (e) ->
@@ -61,7 +68,7 @@ RecentBookmarks = React.createClass
         bookmarks: []
 
     componentDidMount: ->
-        fetchJSON('get', '/bookmarks.json').then (bookmarks) =>
+        Dispatcher.findBookmarks().then (bookmarks) =>
             @setState {bookmarks, loading: false}
 
     render: ->
