@@ -27,7 +27,10 @@ Dispatcher =
 
     deleteBookmark: (bookmark_id) ->
         fetchJSON('delete', "/bookmarks/#{bookmark_id}.json")
+            .onValue ->
+                Dispatcher.bookmarkDeleted.emit bookmark_id
 
     bookmarkCreated: KefirBus()
+    bookmarkDeleted: KefirBus()
 
 module.exports = Dispatcher
