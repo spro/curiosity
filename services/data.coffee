@@ -9,6 +9,12 @@ bookmarks = [
 findBookmarks = (cb) ->
     cb null, bookmarks
 
+createBookmark = (new_bookmark, cb) ->
+    new_bookmark._id = bookmarks.length + 1
+    bookmarks.push new_bookmark
+    cb null, new_bookmark
+
 new somata.Service 'curiosity:data', {
     findBookmarks
+    createBookmark
 }
