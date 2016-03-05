@@ -34,7 +34,11 @@ AddBookmark = React.createClass
 
     render: ->
         <form onSubmit=@doCreate className='add-bookmark'>
-            <input value=@state.url placeholder='url' onChange=@changeUrl />
+            <div className='input'>
+                <input value=@state.url placeholder='url' onChange=@changeUrl />
+                {if @state.errors?.url
+                    <span className='error'>{@state.errors.url}</span>}
+            </div>
             <input value=@state.title placeholder='title' onChange=@changeTitle />
             <button>Add</button>
         </form>

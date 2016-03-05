@@ -1,6 +1,7 @@
 $colors
     light_gray: #999
     lightest_gray: #f7f7f7
+    red: #931
 
 $fonts
     default: 15px
@@ -40,8 +41,18 @@ h1
         outline: none
         padding: 0.5em 1em
 
-    input
+    .input
         flex-grow: 1
+        position: relative
+
+        input
+            width: 100%
+
+        .error
+            position: absolute
+            right: 0
+            top: 0.5em
+            color: $colors.red
 
     button
         flex-grow: 0
