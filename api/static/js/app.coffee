@@ -1,8 +1,18 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 
-fetchJSON = (url, options) ->
-    fetch(url, options).then (res) -> res.json()
+fetchJSON = (method, url, data) ->
+    if method == 'post'
+        fetch_options = {
+            method: 'post',
+            body: JSON.stringify(data)
+            headers: 'Content-Type': 'application/json'
+        }
+    else
+        fetch_options = {
+            method: 'get',
+        }
+    fetch(url, fetch_options).then (res) -> res.json()
 
 App = React.createClass
     render: ->
@@ -27,13 +37,7 @@ AddBookmark = React.createClass
             name: @state.name
             url: @state.url
 
-        fetch_options = {
-            method: 'post',
-            body: JSON.stringify(new_bookmark)
-            headers: 'Content-Type': 'application/json'
-        }
-
-        fetchJSON('/bookmarks.json', fetch_options).then =>
+        fetchJSON('post', '/bookmarks.json', new_bookmark).then =>
             @setState @getInitialState()
 
     changeUrl: (e) ->
@@ -57,7 +61,7 @@ RecentBookmarks = React.createClass
         bookmarks: []
 
     componentDidMount: ->
-        fetchJSON('/bookmarks.json').then (bookmarks) =>
+        fetchJSON('get', '/bookmarks.json').then (bookmarks) =>
             @setState {bookmarks, loading: false}
 
     render: ->
