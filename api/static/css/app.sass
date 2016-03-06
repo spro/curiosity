@@ -8,6 +8,8 @@ $fonts
     default: 15px
 
 $padding
+    tiny: 2px
+    small: 10px
     default: 20px
     large: 40px
 
@@ -40,7 +42,7 @@ h1
         background: transparent
         border: none
         outline: none
-        padding: 0.5em 1em
+        padding: $padding.small 1em
 
     .input
         flex-grow: 1
@@ -52,7 +54,7 @@ h1
         .error
             position: absolute
             right: 0
-            top: 0.5em
+            top: $padding.small
             color: $colors.red
 
     button
@@ -69,7 +71,7 @@ h1
 
     .domain
         color: $colors.light_gray
-        margin-left: 0.5em
+        margin-left: $padding.small
 
     .actions
         display: none
@@ -88,20 +90,21 @@ h1
         display: inline-block
         background: $colors.blue
         color: #fff
-        margin-left: 0.5em
-        border-radius: 2px
-        padding: 0.1em 0.5em
+        border-radius: $padding.tiny
+        padding: $padding.tiny $padding.small
         position: relative
+
+        & + .tag
+            margin-left: $padding.small
 
         .delete
             display: none
-            border-radius: 2px
-            padding: 0.1em 0.5em
-            margin: -0.1em -0.5em
-            margin-left: 0.5em
+            border-radius: $padding.tiny
+            padding: $padding.tiny $padding.small
+            margin: -$padding.tiny -$padding.small
+            margin-left: $padding.small
             background: color($colors.blue shade(10%))
             text-align: center
-            cursor: pointer
 
         &:hover .delete
             display: inline-block
@@ -116,10 +119,10 @@ h1
         color: #fff
         border: none
         outline: none
-        padding: 0.1em 0.5em
+        padding: $padding.tiny $padding.small
         width: 5em
-        margin-left: 0.5em
-        border-radius: 2px
+        margin-left: $padding.small
+        border-radius: $padding.tiny
 
     ::-webkit-input-placeholder
         color: #fff
