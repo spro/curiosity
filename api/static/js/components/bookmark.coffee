@@ -1,12 +1,35 @@
 React = require 'react'
 Dispatcher = require '../dispatcher'
 
+NewTag = React.createClass
+    getInitialState: ->
+        tag: ''
+
+    changeTag: (e) ->
+        tag = e.target.value
+        @setState {tag}
+
+    addTag: (e) ->
+        e.preventDefault()
+        if @state.tag
+            @props.addTag @state.tag
+            @setState @getInitialState()
+
+    render: ->
+        <form onSubmit=@addTag>
+            <input value=@state.tag onChange=@changeTag placeholder="Add tag" />
+        </form>
+
 Tags = React.createClass
+    addTag: (tag) ->
+        Dispatcher.addTag @props.bookmark._id, tag
+
     render: ->
         <div className='tags'>
-            {@props.bookmark.tags?.map (tag) ->
-                <span className='tag'>{tag}</span>
+            {@props.bookmark.tags?.map (tag, i) ->
+                <span className='tag' key=i>{tag}</span>
             }
+            <NewTag addTag=@addTag />
         </div>
 
 Bookmark = React.createClass
