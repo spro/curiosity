@@ -10,7 +10,7 @@ db = new mongo.Db(
 db.open()
 
 findBookmarks = (cb) ->
-    db.collection('bookmarks').find().toArray cb
+    db.collection('bookmarks').find().sort({_id: -1}).toArray cb
 
 createBookmark = (new_bookmark, cb) ->
     db.collection('bookmarks').insert new_bookmark, (err, inserted) ->
