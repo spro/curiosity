@@ -14,11 +14,15 @@ Bookmark = React.createClass
 
     render: ->
         <div className='bookmark'>
-            <a href=@props.bookmark.url className='title'>{@props.bookmark.title || @props.bookmark.url}</a>
-            <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag />
-            <span className='domain'>{@props.bookmark.domain}</span>
-            <div className='actions'>
-                <a onClick=@delete>Delete</a>
+            <div className='title'>
+                <a href=@props.bookmark.url>{@props.bookmark.title || @props.bookmark.url}</a>
+                <span className='domain'>{@props.bookmark.domain}</span>
+                <div className='actions'>
+                    <a onClick=@delete className='delete'>Delete</a>
+                </div>
+            </div>
+            <div className='details'>
+                <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag />
             </div>
         </div>
 

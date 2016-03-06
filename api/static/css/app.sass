@@ -28,6 +28,10 @@ body
 h1
     font-size: $fonts.default
 
+a
+    color: inherit
+    cursor: pointer
+
 // Add Bookmark
 // -----------------------------------------------------------------------------
 
@@ -66,8 +70,20 @@ h1
 .bookmark
     margin-top: $padding.default
 
-    a
-        font-weight: 500
+    .title
+        display: flex
+        flex-wrap: wrap
+
+        a
+            font-weight: 500
+
+    .details
+        display: flex
+        flex-wrap: wrap
+        margin-top: $padding.small
+
+        .tags
+            flex-grow: 1
 
     .domain
         color: $colors.light_gray
@@ -75,10 +91,13 @@ h1
 
     .actions
         display: none
-        margin-left: 0.5em
+
+        .delete
+            color: $colors.red
 
     &:hover .actions
-        display: inline-block
+        display: block
+        margin-left: $padding.small
 
 // Tags
 // -----------------------------------------------------------------------------
