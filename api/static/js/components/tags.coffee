@@ -15,7 +15,7 @@ NewTag = React.createClass
             @setState @getInitialState()
 
     render: ->
-        <form onSubmit=@addTag>
+        <form onSubmit=@addTag className='add-tag'>
             <input value=@state.tag onChange=@changeTag placeholder="Add tag" />
         </form>
 
