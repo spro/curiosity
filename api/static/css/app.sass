@@ -36,6 +36,17 @@ a
     &:hover
         text-decoration: underline
 
+input, button
+    display: block
+    font: inherit
+    background: transparent
+    border: none
+    outline: none
+
+button
+    font-weight: 500
+    cursor: pointer
+
 .row
     display: flex
     margin: $padding.default -$padding.small
@@ -52,11 +63,6 @@ a
     display: flex
 
     input, button
-        display: block
-        font: inherit
-        background: transparent
-        border: none
-        outline: none
         padding: $padding.small 1em
 
     .input
