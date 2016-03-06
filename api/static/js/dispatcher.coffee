@@ -66,8 +66,8 @@ Dispatcher =
         Dispatcher.bookmarks$.emit bookmarks
 
     createdBookmark: (bookmark) ->
-        bookmarks = Store.bookmarks.concat [bookmark]
-        Dispatcher.setBookmarks bookmarks
+        Store.bookmarks.unshift bookmark
+        Dispatcher.setBookmarks Store.bookmarks
 
     deletedBookmark: (bookmark_id) ->
         bookmarks = Store.bookmarks.filter (b) -> b._id != bookmark_id
