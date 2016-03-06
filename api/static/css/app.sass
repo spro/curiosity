@@ -39,7 +39,7 @@ a
 // Add Bookmark
 // -----------------------------------------------------------------------------
 
-.add-bookmark
+.add-bookmark, .search-bookmarks
     margin: $padding.default 0
     background: $colors.lightest_gray
     display: flex
@@ -53,7 +53,6 @@ a
         padding: $padding.small 1em
 
     .input
-        flex-grow: 1
         position: relative
 
         input
@@ -64,6 +63,9 @@ a
             right: 0
             top: $padding.small
             color: $colors.red
+
+    > *:first-child
+        flex-grow: 1
 
     button
         flex-grow: 0
