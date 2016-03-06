@@ -43,6 +43,11 @@ Dispatcher =
             .onValue ->
                 Dispatcher.taggedBookmark bookmark_id, tag
 
+    deleteTag: (bookmark_id, tag) ->
+        fetchJSON('delete', "/bookmarks/#{bookmark_id}/tags/#{tag}.json", {tag})
+            .onValue ->
+                Dispatcher.untaggedBookmark bookmark_id, tag
+
     # Streams
 
     bookmarks$: KefirBus()
@@ -65,6 +70,11 @@ Dispatcher =
         bookmark = Store.bookmarks.filter((b) -> b._id == bookmark_id)[0]
         bookmark.tags ||= []
         bookmark.tags.push tag
+        Dispatcher.setBookmarks Store.bookmarks
+
+    untaggedBookmark: (bookmark_id, tag) ->
+        bookmark = Store.bookmarks.filter((b) -> b._id == bookmark_id)[0]
+        bookmark.tags = bookmark.tags?.filter (t) -> t != tag
         Dispatcher.setBookmarks Store.bookmarks
 
 module.exports = Dispatcher

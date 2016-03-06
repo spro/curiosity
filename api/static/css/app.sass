@@ -91,6 +91,20 @@ h1
         margin-left: 0.5em
         border-radius: 2px
         padding: 0.1em 0.5em
+        position: relative
+
+        .delete
+            display: none
+            border-radius: 2px
+            padding: 0.1em 0.5em
+            margin: -0.1em -0.5em
+            margin-left: 0.5em
+            background: color($colors.blue shade(10%))
+            text-align: center
+            cursor: pointer
+
+        &:hover .delete
+            display: inline-block
 
 .add-tag
     display: inline-block
