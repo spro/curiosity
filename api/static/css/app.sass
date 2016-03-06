@@ -36,11 +36,18 @@ a
     &:hover
         text-decoration: underline
 
-// Add Bookmark
+.row
+    display: flex
+    margin: $padding.default -$padding.small
+
+    > *
+        flex-grow: 1
+        margin: 0 $padding.small
+
+// Add and Search Bookmarks
 // -----------------------------------------------------------------------------
 
 .add-bookmark, .search-bookmarks
-    margin: $padding.default 0
     background: $colors.lightest_gray
     display: flex
 

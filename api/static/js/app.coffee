@@ -9,8 +9,10 @@ App = React.createClass
     render: ->
         <div>
             <h1>Curiosity Browser</h1>
-            <AddBookmark />
-            <SearchBookmarks />
+            <div className='row'>
+                <AddBookmark />
+                <SearchBookmarks />
+            </div>
             <ListBookmarks />
         </div>
 
