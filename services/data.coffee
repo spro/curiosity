@@ -12,6 +12,13 @@ db.open()
 findBookmarks = (cb) ->
     db.collection('bookmarks').find().sort({_id: -1}).toArray cb
 
+searchBookmarks = (q, cb) ->
+    title_query = {title: {$regex: q, $options: 'i'}}
+    url_query = {url: {$regex: q, $options: 'i'}}
+    tags_query = {tags: {$regex: q, $options: 'i'}}
+    query = {$or: [title_query, url_query, tags_query]}
+    db.collection('bookmarks').find(query).sort({_id: -1}).toArray cb
+
 createBookmark = (new_bookmark, cb) ->
     db.collection('bookmarks').insert new_bookmark, (err, inserted) ->
         cb err, inserted?.ops?[0] # Mongo driver insert response is weird
@@ -34,6 +41,7 @@ deleteBookmark = (bookmark_id, cb) ->
 
 new somata.Service 'curiosity:data', {
     findBookmarks
+    searchBookmarks
     createBookmark
     updateBookmark
     deleteBookmark

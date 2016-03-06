@@ -11,6 +11,11 @@ app.get '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:data', 'findBookmarks', (err, bookmarks) ->
         res.json bookmarks
 
+app.get '/bookmarks/search.json', (req, res) ->
+    q = req.query.q
+    client.remote 'curiosity:data', 'searchBookmarks', q, (err, bookmarks) ->
+        res.json bookmarks
+
 app.post '/bookmarks.json', (req, res) ->
     new_bookmark =
         title: req.body.title
