@@ -2,7 +2,7 @@ React = require 'react'
 Bookmark = require './bookmark'
 Dispatcher = require '../dispatcher'
 
-RecentBookmarks = React.createClass
+ListBookmarks = React.createClass
     getInitialState: ->
         loading: true
         bookmarks: []
@@ -22,4 +22,4 @@ RecentBookmarks = React.createClass
                 {@state.bookmarks.map (bookmark, i) -> <Bookmark bookmark=bookmark key=i />}
             </div>
 
-module.exports = RecentBookmarks
+module.exports = ListBookmarks
