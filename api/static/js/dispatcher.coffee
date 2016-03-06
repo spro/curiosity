@@ -49,11 +49,9 @@ Dispatcher =
                 Dispatcher.untaggedBookmark bookmark_id, tag
 
     searchBookmarks: (q) ->
-        q_re = new RegExp q, 'i'
-        filtered_bookmarks = Store.bookmarks.filter (b) ->
-            b.title.match(q_re) || b.url.match(q_re) ||
-                b.tags?.filter((t) -> t.match(q_re)).length > 0
-        Dispatcher.bookmarks$.emit filtered_bookmarks
+        fetchJSON('get', '/bookmarks/search.json?q=' + encodeURIComponent q)
+            .onValue (bookmarks) ->
+                Dispatcher.setBookmarks bookmarks
 
     # Streams
 
