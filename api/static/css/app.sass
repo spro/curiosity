@@ -9,6 +9,7 @@ $fonts
 
 $padding
     tiny: 2px
+    smaller: 5px
     small: 10px
     default: 20px
     large: 40px
@@ -80,7 +81,7 @@ a
     .details
         display: flex
         flex-wrap: wrap
-        margin-top: $padding.small
+        margin-top: $padding.smaller
 
         .tags
             flex-grow: 1
@@ -90,6 +91,8 @@ a
         margin-left: $padding.small
 
     .actions
+        flex-grow: 1
+        text-align: right
         display: none
 
         .delete
