@@ -38,6 +38,11 @@ Dispatcher =
             .onValue ->
                 Dispatcher.deletedBookmark bookmark_id
 
+    addTag: (bookmark_id, tag) ->
+        fetchJSON('post', "/bookmarks/#{bookmark_id}/tags.json", {tag})
+            .onValue ->
+                Dispatcher.taggedBookmark bookmark_id, tag
+
     # Streams
 
     bookmarks$: KefirBus()
@@ -55,5 +60,11 @@ Dispatcher =
     deletedBookmark: (bookmark_id) ->
         bookmarks = Store.bookmarks.filter (b) -> b._id != bookmark_id
         Dispatcher.setBookmarks bookmarks
+
+    taggedBookmark: (bookmark_id, tag) ->
+        bookmark = Store.bookmarks.filter((b) -> b._id == bookmark_id)[0]
+        bookmark.tags ||= []
+        bookmark.tags.push tag
+        Dispatcher.setBookmarks Store.bookmarks
 
 module.exports = Dispatcher
