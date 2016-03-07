@@ -19,7 +19,7 @@ App = React.createClass
             <h1>Curiosity Browser</h1>
             <div className='row'>
                 <AddBookmark />
-                <SearchBookmarks />
+                <SearchBookmarks q=@props.location.query.q />
             </div>
             <ListBookmarks />
         </div>

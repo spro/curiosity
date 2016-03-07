@@ -5,7 +5,7 @@ Dispatcher = require '../dispatcher'
 
 SearchBookmarks = React.createClass
     getInitialState: ->
-        q: ''
+        q: @props.q || ''
 
     componentDidMount: ->
         @q$ = KefirBus()
