@@ -35,8 +35,8 @@ Dispatcher =
 
     updateBookmark: (bookmark_id, bookmark_update) ->
         fetchJSON('put', "/bookmarks/#{bookmark_id}.json", bookmark_update)
-            .onValue (created_bookmark) ->
-                Dispatcher.createdBookmark created_bookmark
+            .onValue (updated_bookmark) ->
+                Dispatcher.updatedBookmark bookmark_id, updated_bookmark
 
     deleteBookmark: (bookmark_id) ->
         fetchJSON('delete', "/bookmarks/#{bookmark_id}.json")
@@ -75,6 +75,12 @@ Dispatcher =
     deletedBookmark: (bookmark_id) ->
         bookmarks = Store.bookmarks.filter (b) -> b._id != bookmark_id
         Dispatcher.setBookmarks bookmarks
+
+    updatedBookmark: (bookmark_id, updated_bookmark) ->
+        bookmark = Store.bookmarks.filter((b) -> b._id == bookmark_id)[0]
+        for k, v of updated_bookmark
+            bookmark[k] = updated_bookmark[k]
+        Dispatcher.setBookmarks Store.bookmarks
 
     taggedBookmark: (bookmark_id, tag) ->
         bookmark = Store.bookmarks.filter((b) -> b._id == bookmark_id)[0]
