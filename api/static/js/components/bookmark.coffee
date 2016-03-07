@@ -26,6 +26,7 @@ Bookmark = React.createClass
                 </div>
             </div>
             <div className='details'>
+                <p className='summary'>{@props.bookmark.summary}</p>
                 <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag openTag=@openTag />
             </div>
         </div>
