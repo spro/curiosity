@@ -33,6 +33,11 @@ Dispatcher =
             .onValue (created_bookmark) ->
                 Dispatcher.createdBookmark created_bookmark
 
+    updateBookmark: (bookmark_id, bookmark_update) ->
+        fetchJSON('put', "/bookmarks/#{bookmark_id}.json", bookmark_update)
+            .onValue (created_bookmark) ->
+                Dispatcher.createdBookmark created_bookmark
+
     deleteBookmark: (bookmark_id) ->
         fetchJSON('delete', "/bookmarks/#{bookmark_id}.json")
             .onValue ->

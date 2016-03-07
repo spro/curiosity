@@ -24,6 +24,15 @@ app.post '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:engine', 'createBookmark', new_bookmark, (err, created_bookmark) ->
         res.json created_bookmark
 
+app.put '/bookmarks/:bookmark_id.json', (req, res) ->
+    bookmark_id = req.params.bookmark_id
+    bookmark_update =
+        title: req.body.title
+        url: req.body.url
+
+    client.remote 'curiosity:data', 'updateBookmark', bookmark_id, bookmark_update, (err, updated_bookmark) ->
+        res.json updated_bookmark
+
 app.delete '/bookmarks/:bookmark_id.json', (req, res) ->
     bookmark_id = req.params.bookmark_id
     client.remote 'curiosity:data', 'deleteBookmark', bookmark_id, (err) ->
