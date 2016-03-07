@@ -14,9 +14,10 @@ findBookmarks = (cb) ->
 
 searchBookmarks = (q, cb) ->
     title_query = {title: {$regex: q, $options: 'i'}}
+    summary_query = {summary: {$regex: q, $options: 'i'}}
     url_query = {url: {$regex: q, $options: 'i'}}
     tags_query = {tags: {$regex: q, $options: 'i'}}
-    query = {$or: [title_query, url_query, tags_query]}
+    query = {$or: [title_query, summary_query, url_query, tags_query]}
     db.collection('bookmarks').find(query).sort({_id: -1}).toArray cb
 
 createBookmark = (new_bookmark, cb) ->
