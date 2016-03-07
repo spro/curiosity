@@ -19,11 +19,11 @@ NewTag = React.createClass
             <input value=@state.tag onChange=@changeTag placeholder="Add tag" />
         </form>
 
-Tags = ({tags, addTag, deleteTag}) ->
+Tags = ({tags, addTag, deleteTag, openTag}) ->
     <div className='tags'>
         {tags?.map (tag, i) ->
             <span className='tag' key=i>
-                {tag}
+                <a onClick={-> openTag tag}>{tag}</a>
                 <a className='delete' onClick={-> deleteTag tag}>x</a>
             </span>
         }

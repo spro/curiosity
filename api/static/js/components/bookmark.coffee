@@ -1,4 +1,5 @@
 React = require 'react'
+{browserHistory} = require 'react-router'
 Tags = require './tags'
 Dispatcher = require '../dispatcher'
 
@@ -12,6 +13,9 @@ Bookmark = React.createClass
     deleteTag: (tag) ->
         Dispatcher.deleteTag @props.bookmark._id, tag
 
+    openTag: (tag) ->
+        browserHistory.push {query: {q: tag}}
+
     render: ->
         <div className='bookmark'>
             <div className='title'>
@@ -22,7 +26,7 @@ Bookmark = React.createClass
                 </div>
             </div>
             <div className='details'>
-                <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag />
+                <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag openTag=@openTag />
             </div>
         </div>
 
