@@ -2,9 +2,9 @@ Kefir = require 'kefir'
 KefirBus = require 'kefir-bus'
 
 fetchJSON = (method, url, data) ->
-    if method == 'post'
+    if method in ['post', 'put']
         fetch_options = {
-            method: 'post',
+            method: method
             body: JSON.stringify(data)
             headers: 'Content-Type': 'application/json'
         }
