@@ -8,7 +8,6 @@ ListBookmarks = React.createClass
         bookmarks: []
 
     componentDidMount: ->
-        Dispatcher.findBookmarks()
         Dispatcher.bookmarks$.onValue @setBookmarks
 
     setBookmarks: (bookmarks) ->
