@@ -11,9 +11,17 @@ scrape = (url, cb) ->
             cb err
         else
             $ = cheerio.load(body)
+
             title = $('title').text()
+
+            if url.match /arxiv.org/
+                summary = $('.abstract').text()
+                summary = summary.trim().replace /\s+/g, ' '
+                summary = summary.replace /^Abstract: /, ''
+
             cb null, {
                 title
+                summary
             }
 
 new somata.Service 'curiosity:scraper', {
