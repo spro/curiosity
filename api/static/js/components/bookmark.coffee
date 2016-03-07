@@ -23,6 +23,9 @@ Bookmark = React.createClass
     getInitialState: ->
         editing: false
 
+    componentWillReceiveProps: (new_props) ->
+        @setState editing: false
+
     delete: ->
         Dispatcher.deleteBookmark @props.bookmark._id
 
