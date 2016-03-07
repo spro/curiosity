@@ -1,4 +1,5 @@
 React = require 'react'
+{browserHistory} = require 'react-router'
 KefirBus = require 'kefir-bus'
 Bookmark = require './bookmark'
 Dispatcher = require '../dispatcher'
@@ -9,11 +10,14 @@ SearchBookmarks = React.createClass
 
     componentDidMount: ->
         @q$ = KefirBus()
-        @q$.debounce(350).onValue Dispatcher.searchBookmarks
+        @q$.debounce(350).onValue @search
+
+    search: (q) ->
+        browserHistory.push {query: {q}}
 
     doSearch: (e) ->
         e.preventDefault()
-        Dispatcher.searchBookmarks(@state.q)
+        @search @state.q
 
     changeQ: (e) ->
         q = e.target.value
@@ -25,6 +29,5 @@ SearchBookmarks = React.createClass
             <input value=@state.q placeholder='q' onChange=@changeQ />
             <button>Search</button>
         </form>
-
 
 module.exports = SearchBookmarks
