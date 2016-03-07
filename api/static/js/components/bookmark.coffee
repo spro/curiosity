@@ -20,6 +20,9 @@ ExpandableSummary = React.createClass
         </p>
 
 Bookmark = React.createClass
+    getInitialState: ->
+        editing: false
+
     delete: ->
         Dispatcher.deleteBookmark @props.bookmark._id
 
@@ -32,12 +35,19 @@ Bookmark = React.createClass
     openTag: (tag) ->
         browserHistory.push {query: {q: tag}}
 
+    toggleEditing: ->
+        @setState editing: !@state.editing
+
     render: ->
+        if @state.editing
+            return <EditingBookmark bookmark=@props.bookmark onCancel=@toggleEditing />
+
         <div className='bookmark'>
             <div className='title'>
                 <a href=@props.bookmark.url>{@props.bookmark.title || @props.bookmark.url}</a>
                 <span className='domain'>{@props.bookmark.domain}</span>
                 <div className='actions'>
+                    <a onClick=@toggleEditing className='edit'>Edit</a>
                     <a onClick=@delete className='delete'>Delete</a>
                 </div>
             </div>
@@ -45,6 +55,37 @@ Bookmark = React.createClass
                 {if @props.bookmark.summary
                     <ExpandableSummary text=@props.bookmark.summary />
                 }
+                <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag openTag=@openTag />
+            </div>
+        </div>
+
+EditingBookmark = React.createClass
+    getInitialState: ->
+        title: @props.bookmark.title
+        summary: @props.bookmark.summary
+
+    changeTitle: (e) ->
+        title = e.target.value
+        @setState {title}
+
+    changeSummary: (e) ->
+        summary = e.target.value
+        @setState {summary}
+
+    doSave: ->
+        Dispatcher.updateBookmark @props.bookmark._id, @state
+
+    render: ->
+        <div className='bookmark editing'>
+            <div className='title'>
+                <input value=@state.title onChange=@changeTitle />
+                <div className='actions'>
+                    <a onClick=@props.onCancel className='cancel'>Cancel</a>
+                    <a onClick=@doSave className='save'>Save</a>
+                </div>
+            </div>
+            <div className='details'>
+                <textarea value=@state.summary onChange=@changeSummary />
                 <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag openTag=@openTag />
             </div>
         </div>
