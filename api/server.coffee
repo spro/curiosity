@@ -29,6 +29,7 @@ app.put '/bookmarks/:bookmark_id.json', (req, res) ->
     bookmark_update =
         title: req.body.title
         url: req.body.url
+        summary: req.body.summary
 
     client.remote 'curiosity:data', 'updateBookmark', bookmark_id, bookmark_update, (err, updated_bookmark) ->
         res.json updated_bookmark

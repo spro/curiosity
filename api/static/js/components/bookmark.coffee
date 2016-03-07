@@ -65,11 +65,16 @@ Bookmark = React.createClass
 EditingBookmark = React.createClass
     getInitialState: ->
         title: @props.bookmark.title
+        url: @props.bookmark.url
         summary: @props.bookmark.summary
 
     changeTitle: (e) ->
         title = e.target.value
         @setState {title}
+
+    changeUrl: (e) ->
+        url = e.target.value
+        @setState {url}
 
     changeSummary: (e) ->
         summary = e.target.value
@@ -88,6 +93,7 @@ EditingBookmark = React.createClass
                 </div>
             </div>
             <div className='details'>
+                <input value=@state.url onChange=@changeUrl className='url' />
                 <textarea value=@state.summary onChange=@changeSummary />
                 <Tags tags=@props.bookmark.tags addTag=@addTag deleteTag=@deleteTag openTag=@openTag />
             </div>
