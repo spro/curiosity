@@ -4,6 +4,7 @@ $colors
     lightest_gray: #f7f7f7
     red: #931
     blue: #4a90e2
+    green: #1a0
 
 $fonts
     default: 15px
@@ -37,7 +38,7 @@ a
     &:hover
         text-decoration: underline
 
-input, button
+input, textarea, button
     display: block
     font: inherit
     background: transparent
@@ -98,12 +99,7 @@ button
             font-weight: 500
 
     .details
-        display: flex
-        flex-wrap: wrap
         margin-top: $padding.smaller
-
-        .tags
-            flex-grow: 1
 
     .summary
         margin-bottom: $padding.small
@@ -120,12 +116,29 @@ button
         text-align: right
         display: none
 
+        a
+            margin-left: $padding.small
+
         .delete
             color: $colors.red
 
+        .save
+            color: $colors.green
+
     &:hover .actions
         display: block
-        margin-left: $padding.small
+
+.bookmark.editing
+
+    input
+        flex-grow: 1
+        font-weight: 500
+
+    textarea
+        width: 100%
+        height: 100px
+        display: block
+        margin-bottom: $padding.small
 
 // Tags
 // -----------------------------------------------------------------------------
