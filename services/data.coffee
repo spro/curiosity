@@ -26,7 +26,8 @@ createBookmark = (new_bookmark, cb) ->
 
 updateBookmark = (bookmark_id, bookmark_update, cb) ->
     query = {_id: mongo.ObjectID bookmark_id}
-    db.collection('bookmarks').update query, {$set: bookmark_update}, cb
+    db.collection('bookmarks').findAndModify query, null, {$set: bookmark_update}, {new: true}, (err, updated) ->
+        cb err, updated?.value
 
 tagBookmark = (bookmark_id, tag, cb) ->
     query = {_id: mongo.ObjectID bookmark_id}
