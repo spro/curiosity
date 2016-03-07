@@ -1,5 +1,6 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
+{Router, Route, IndexRoute, browserHistory} = require 'react-router'
 
 AddBookmark = require './components/add-bookmark'
 SearchBookmarks = require './components/search-bookmarks'
@@ -16,4 +17,7 @@ App = React.createClass
             <ListBookmarks />
         </div>
 
-ReactDOM.render <App />, document.getElementById 'app'
+routes =
+    <Route path='/' component=App />
+
+ReactDOM.render <Router routes=routes history=browserHistory />, document.getElementById 'app'
