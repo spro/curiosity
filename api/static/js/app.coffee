@@ -9,7 +9,13 @@ ListBookmarks = require './components/list-bookmarks'
 
 App = React.createClass
     componentDidMount: ->
-        if q = @props.location.query.q
+        @loadBookmarks @props.location.query
+
+    componentWillReceiveProps: (new_props) ->
+        @loadBookmarks new_props.location.query
+
+    loadBookmarks: (query) ->
+        if q = query.q
             Dispatcher.searchBookmarks(q)
         else
             Dispatcher.findBookmarks()
