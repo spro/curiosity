@@ -11,8 +11,8 @@ fillBookmark = (new_bookmark, cb) ->
     if new_bookmark.title
         cb null, new_bookmark
     else
-        client.remote 'curiosity:scraper', 'getTitle', new_bookmark.url, (err, title) ->
-            new_bookmark.title = title
+        client.remote 'curiosity:scraper', 'scrape', new_bookmark.url, (err, scraped) ->
+            new_bookmark.title = scraped.title
             cb null, new_bookmark
 
 createBookmark = (new_bookmark, cb) ->
