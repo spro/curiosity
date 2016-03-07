@@ -13,6 +13,7 @@ fillBookmark = (new_bookmark, cb) ->
     else
         client.remote 'curiosity:scraper', 'scrape', new_bookmark.url, (err, scraped) ->
             new_bookmark.title = scraped.title
+            new_bookmark.summary = scraped.summary
             cb null, new_bookmark
 
 createBookmark = (new_bookmark, cb) ->
