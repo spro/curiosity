@@ -12,6 +12,9 @@ SearchBookmarks = React.createClass
         @q$ = KefirBus()
         @q$.debounce(350).onValue @search
 
+    componentWillReceiveProps: (new_props) ->
+        @setState q: new_props.q
+
     search: (q) ->
         browserHistory.push {query: {q}}
 
