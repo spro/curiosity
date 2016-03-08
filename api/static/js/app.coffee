@@ -32,8 +32,15 @@ App = React.createClass
         </div>
 
 ShowBookmark = React.createClass
+    getInitialState: ->
+        depth: 0
+
+    # Keep track of how many extra links have been loaded
+    didLoad: ->
+        @setState depth: @state.depth + 1
+
     goBack: ->
-        browserHistory.go -1
+        browserHistory.go Math.min(-1 * @state.depth, -1)
 
     render: ->
         url = @props.location.query.url
@@ -41,7 +48,7 @@ ShowBookmark = React.createClass
         <div className='overlay'>
             <a onClick=@goBack className="close">&times;</a>
             <div className='content'>
-                <iframe ref='iframe' src=url />
+                <iframe ref='iframe' src=url onLoad=@didLoad />
             </div>
         </div>
 
