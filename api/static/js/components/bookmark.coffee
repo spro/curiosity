@@ -41,13 +41,17 @@ Bookmark = React.createClass
     toggleEditing: ->
         @setState editing: !@state.editing
 
+    openUrl: (e) ->
+        if e.metaKey
+            window.open @props.bookmark.url, '_blank'
+
     render: ->
         if @state.editing
             return <EditingBookmark bookmark=@props.bookmark onCancel=@toggleEditing />
 
         <div className='bookmark'>
             <div className='title'>
-                <a href=@props.bookmark.url>{@props.bookmark.title || @props.bookmark.url}</a>
+                <a onClick=@openUrl>{@props.bookmark.title || @props.bookmark.url}</a>
                 <span className='domain'>{@props.bookmark.domain}</span>
                 <div className='actions'>
                     <a onClick=@toggleEditing className='edit'>Edit</a>
