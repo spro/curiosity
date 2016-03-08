@@ -8,24 +8,30 @@ SearchBookmarks = require './components/search-bookmarks'
 ListBookmarks = require './components/list-bookmarks'
 
 App = React.createClass
+    getInitialState: ->
+        q: null
+
     componentDidMount: ->
-        @loadBookmarks @props.location.query
+        @loadBookmarks @props.location.query.q
 
     componentWillReceiveProps: (new_props) ->
-        @loadBookmarks new_props.location.query
+        if new_props.location.pathname == '/'
+            if new_props.location.query.q != @state.q
+                @loadBookmarks new_props.location.query.q
 
-    loadBookmarks: (query) ->
-        if q = query.q
-            Dispatcher.searchBookmarks(q)
-        else
-            Dispatcher.findBookmarks()
+    loadBookmarks: (q) ->
+        @setState {q}, =>
+            if @state.q
+                Dispatcher.searchBookmarks(@state.q)
+            else
+                Dispatcher.findBookmarks()
 
     render: ->
         <div>
             <h1>Curiosity Browser</h1>
             <div className='row'>
                 <AddBookmark />
-                <SearchBookmarks q=@props.location.query.q />
+                <SearchBookmarks q=@state.q />
             </div>
             <ListBookmarks />
             {@props.children}
