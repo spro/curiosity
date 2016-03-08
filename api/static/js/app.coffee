@@ -28,9 +28,26 @@ App = React.createClass
                 <SearchBookmarks q=@props.location.query.q />
             </div>
             <ListBookmarks />
+            {@props.children}
+        </div>
+
+ShowBookmark = React.createClass
+    goBack: ->
+        browserHistory.go -1
+
+    render: ->
+        url = @props.location.query.url
+
+        <div className='overlay'>
+            <a onClick=@goBack className="close">&times;</a>
+            <div className='content'>
+                <iframe ref='iframe' src=url />
+            </div>
         </div>
 
 routes =
-    <Route path='/' component=App />
+    <Route path='/' component=App>
+        <Route path='/show' component=ShowBookmark />
+    </Route>
 
 ReactDOM.render <Router routes=routes history=browserHistory />, document.getElementById 'app'
