@@ -5,8 +5,6 @@ client = new somata.Client
 
 app = polar port: 4748, debug: true
 
-app.get '/', (req, res) -> res.render 'app'
-
 app.get '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:data', 'findBookmarks', (err, bookmarks) ->
         res.json bookmarks
@@ -50,5 +48,8 @@ app.delete '/bookmarks/:bookmark_id/tags/:tag.json', (req, res) ->
     tag = req.params.tag
     client.remote 'curiosity:data', 'untagBookmark', bookmark_id, tag, (err) ->
         res.json {ok: !err?}
+
+app.get '/', (req, res) -> res.render 'app'
+app.get '/:page', (req, res) -> res.render 'app'
 
 app.start()
