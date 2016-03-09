@@ -56,7 +56,7 @@ App = React.createClass
             {if @state.show
                 <ShowBookmark bookmark_id=@state.show />
             }
-            <div className='minimized-tabs'>
+            <div className='minimized'>
                 {@state.minimized.map (minimized) ->
                     <MinimizedBookmark bookmark_id=minimized />
                 }
@@ -79,7 +79,7 @@ MinimizedBookmark = React.createClass
             {if @state.loading
                 <span className='loading'>Loading...</span>
             else
-                <span className='title'>{@state.bookmark.title}</span>
+                <a className='title' title=@state.bookmark.title>{@state.bookmark.title}</a>
             }
         </div>
 

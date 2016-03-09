@@ -1,6 +1,7 @@
 $colors
     med_gray: #666
     light_gray: #999
+    lighter_gray: #ddd
     lightest_gray: #f7f7f7
     red: #931
     blue: #4a90e2
@@ -102,6 +103,30 @@ button
             height: 100%
             border: none
             outline: none
+
+.minimized
+    position: fixed
+    bottom: 0
+    left: 0
+    display: flex
+    flex-wrap: wrap
+    box-shadow: 0 10px 20px rgba(#000, 0.1)
+
+    .bookmark
+        background: #fff
+        padding: $padding.small
+        max-width: 200px
+        overflow: hidden
+        text-overflow: ellipsis
+        margin: 0
+
+        .title
+            font-weight: 500
+            white-space: nowrap
+            display: inline
+
+        & + .bookmark
+            border-left: 1px solid $colors.lighter_gray
 
 // Add and Search Bookmarks
 // -----------------------------------------------------------------------------
