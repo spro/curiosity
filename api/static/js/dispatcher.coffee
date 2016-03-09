@@ -28,6 +28,9 @@ Dispatcher =
             .onValue (bookmarks) ->
                 Dispatcher.setBookmarks bookmarks
 
+    getBookmark: (bookmark_id) ->
+        fetchJSON('get', "/bookmarks/#{bookmark_id}.json")
+
     createBookmark: (new_bookmark) ->
         fetchJSON('post', '/bookmarks.json', new_bookmark)
             .onValue (created_bookmark) ->

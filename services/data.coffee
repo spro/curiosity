@@ -12,6 +12,10 @@ db.open()
 findBookmarks = (cb) ->
     db.collection('bookmarks').find().sort({_id: -1}).toArray cb
 
+getBookmark = (bookmark_id, cb) ->
+    query = {_id: mongo.ObjectID bookmark_id}
+    db.collection('bookmarks').findOne query, cb
+
 searchBookmarks = (q, cb) ->
     title_query = {title: {$regex: q, $options: 'i'}}
     summary_query = {summary: {$regex: q, $options: 'i'}}
@@ -43,6 +47,7 @@ deleteBookmark = (bookmark_id, cb) ->
 
 new somata.Service 'curiosity:data', {
     findBookmarks
+    getBookmark
     searchBookmarks
     createBookmark
     updateBookmark

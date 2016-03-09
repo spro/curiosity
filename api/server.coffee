@@ -9,6 +9,11 @@ app.get '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:data', 'findBookmarks', (err, bookmarks) ->
         res.json bookmarks
 
+app.get '/bookmarks/:bookmark_id.json', (req, res) ->
+    bookmark_id = req.params.bookmark_id
+    client.remote 'curiosity:data', 'getBookmark', bookmark_id, (err, bookmark) ->
+        res.json bookmark
+
 app.get '/bookmarks/search.json', (req, res) ->
     q = req.query.q
     client.remote 'curiosity:data', 'searchBookmarks', q, (err, bookmarks) ->
