@@ -15,14 +15,14 @@ App = React.createClass
     componentDidMount: ->
         query = @props.location.query
         @loadBookmarks query.q
-        @showUrl query.show
+        @showBookmark query.show
 
     componentWillReceiveProps: (new_props) ->
         query = new_props.location.query
         if query.q != @state.q
             @loadBookmarks query.q
         if query.show != @state.show
-            @showUrl query.show
+            @showBookmark query.show
 
     loadBookmarks: (q) ->
         @setState {q}, =>
@@ -31,7 +31,7 @@ App = React.createClass
             else
                 Dispatcher.findBookmarks()
 
-    showUrl: (show) ->
+    showBookmark: (show) ->
         @setState {show}
 
     render: ->
@@ -43,13 +43,21 @@ App = React.createClass
             </div>
             <ListBookmarks />
             {if @state.show
-                <ShowBookmark url=@state.show />
+                <ShowBookmark bookmark_id=@state.show />
             }
         </div>
 
 ShowBookmark = React.createClass
     getInitialState: ->
+        loading: true
+        bookmark: null
         depth: 0
+
+    componentDidMount: ->
+        Dispatcher.getBookmark(@props.bookmark_id).onValue @setBookmark
+
+    setBookmark: (bookmark) ->
+        @setState {bookmark, loading: false}
 
     # Keep track of how many extra links have been loaded
     didLoad: ->
@@ -59,12 +67,15 @@ ShowBookmark = React.createClass
         browserHistory.go Math.min(-1 * @state.depth, -1)
 
     render: ->
-        url = @props.url
-
         <div className='overlay'>
             <a onClick=@goBack className="close">&times;</a>
             <div className='content'>
-                <iframe ref='iframe' src=url onLoad=@didLoad />
+                {if @state.loading
+                    <p className='loading'>Loading...</p>
+                else
+                    url = @state.bookmark.url
+                    <iframe ref='iframe' src=url onLoad=@didLoad />
+                }
             </div>
         </div>
 

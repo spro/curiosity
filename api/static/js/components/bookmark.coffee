@@ -49,7 +49,7 @@ Bookmark = React.createClass
             window.open @props.bookmark.url, '_blank'
         else
             query = @context.location.query
-            query.show = @props.bookmark.url
+            query.show = @props.bookmark._id
             browserHistory.push {query}
 
     render: ->
