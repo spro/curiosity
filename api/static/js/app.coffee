@@ -1,21 +1,27 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 {Router, Route, IndexRoute, browserHistory} = require 'react-router'
+_ = require 'underscore'
 
 Dispatcher = require './dispatcher'
 AddBookmark = require './components/add-bookmark'
 SearchBookmarks = require './components/search-bookmarks'
 ListBookmarks = require './components/list-bookmarks'
 
+forceArray = (i) ->
+    if _.isArray(i) then i else [i]
+
 App = React.createClass
     getInitialState: ->
         q: null
         show: null
+        minimized: []
 
     componentDidMount: ->
         query = @props.location.query
         @loadBookmarks query.q
         @showBookmark query.show
+        @showMinimized forceArray query.min
 
     componentWillReceiveProps: (new_props) ->
         query = new_props.location.query
@@ -23,6 +29,8 @@ App = React.createClass
             @loadBookmarks query.q
         if query.show != @state.show
             @showBookmark query.show
+        if forceArray(query.min).join(',') != @state.minimized.join(',')
+            @showMinimized forceArray query.min
 
     loadBookmarks: (q) ->
         @setState {q}, =>
@@ -34,6 +42,9 @@ App = React.createClass
     showBookmark: (show) ->
         @setState {show}
 
+    showMinimized: (minimized) ->
+        @setState {minimized}
+
     render: ->
         <div>
             <h1>Curiosity Browser</h1>
@@ -44,6 +55,31 @@ App = React.createClass
             <ListBookmarks />
             {if @state.show
                 <ShowBookmark bookmark_id=@state.show />
+            }
+            <div className='minimized-tabs'>
+                {@state.minimized.map (minimized) ->
+                    <MinimizedBookmark bookmark_id=minimized />
+                }
+            </div>
+        </div>
+
+MinimizedBookmark = React.createClass
+    getInitialState: ->
+        loading: true
+        bookmark: null
+
+    componentDidMount: ->
+        Dispatcher.getBookmark(@props.bookmark_id).onValue @setBookmark
+
+    setBookmark: (bookmark) ->
+        @setState {bookmark, loading: false}
+
+    render: ->
+        <div className='bookmark'>
+            {if @state.loading
+                <span className='loading'>Loading...</span>
+            else
+                <span className='title'>{@state.bookmark.title}</span>
             }
         </div>
 
