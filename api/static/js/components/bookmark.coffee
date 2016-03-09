@@ -20,6 +20,9 @@ ExpandableSummary = React.createClass
         </p>
 
 Bookmark = React.createClass
+    contextTypes:
+        location: React.PropTypes.object.isRequired
+
     getInitialState: ->
         editing: false
 
@@ -45,7 +48,9 @@ Bookmark = React.createClass
         if e.metaKey
             window.open @props.bookmark.url, '_blank'
         else
-            browserHistory.push {query: {show: @props.bookmark.url}}
+            query = @context.location.query
+            query.show = @props.bookmark.url
+            browserHistory.push {query}
 
     render: ->
         if @state.editing
