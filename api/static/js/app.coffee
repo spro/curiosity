@@ -10,14 +10,19 @@ ListBookmarks = require './components/list-bookmarks'
 App = React.createClass
     getInitialState: ->
         q: null
+        show: null
 
     componentDidMount: ->
-        @loadBookmarks @props.location.query.q
+        query = @props.location.query
+        @loadBookmarks query.q
+        @showUrl query.show
 
     componentWillReceiveProps: (new_props) ->
-        if new_props.location.pathname == '/'
-            if new_props.location.query.q != @state.q
-                @loadBookmarks new_props.location.query.q
+        query = new_props.location.query
+        if query.q != @state.q
+            @loadBookmarks query.q
+        if query.show != @state.show
+            @showUrl query.show
 
     loadBookmarks: (q) ->
         @setState {q}, =>
@@ -25,6 +30,9 @@ App = React.createClass
                 Dispatcher.searchBookmarks(@state.q)
             else
                 Dispatcher.findBookmarks()
+
+    showUrl: (show) ->
+        @setState {show}
 
     render: ->
         <div>
@@ -34,7 +42,9 @@ App = React.createClass
                 <SearchBookmarks q=@state.q />
             </div>
             <ListBookmarks />
-            {@props.children}
+            {if @state.show
+                <ShowBookmark url=@state.show />
+            }
         </div>
 
 ShowBookmark = React.createClass
@@ -49,7 +59,7 @@ ShowBookmark = React.createClass
         browserHistory.go Math.min(-1 * @state.depth, -1)
 
     render: ->
-        url = @props.location.query.url
+        url = @props.url
 
         <div className='overlay'>
             <a onClick=@goBack className="close">&times;</a>
@@ -59,8 +69,6 @@ ShowBookmark = React.createClass
         </div>
 
 routes =
-    <Route path='/' component=App>
-        <Route path='/show' component=ShowBookmark />
-    </Route>
+    <Route path='/' component=App />
 
 ReactDOM.render <Router routes=routes history=browserHistory />, document.getElementById 'app'

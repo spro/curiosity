@@ -45,7 +45,7 @@ Bookmark = React.createClass
         if e.metaKey
             window.open @props.bookmark.url, '_blank'
         else
-            browserHistory.push {pathname: "/show", query: {url: @props.bookmark.url}}
+            browserHistory.push {query: {show: @props.bookmark.url}}
 
     render: ->
         if @state.editing
