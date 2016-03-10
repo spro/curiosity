@@ -19,21 +19,21 @@ forceArray = (i) ->
 App = React.createClass
     getInitialState: ->
         q: null
-        show: null
+        overlay: null
         minimized: []
 
     componentDidMount: ->
         query = @props.location.query
         @loadBookmarks query.q
-        @showBookmark query.show
+        @showOverlay query.overlay
         @showMinimized forceArray query.min
 
     componentWillReceiveProps: (new_props) ->
         query = new_props.location.query
         if query.q != @state.q
             @loadBookmarks query.q
-        if query.show != @state.show
-            @showBookmark query.show
+        if query.overlay != @state.overlay
+            @showOverlay query.overlay
         if forceArray(query.min).join(',') != @state.minimized.join(',')
             @showMinimized forceArray query.min
 
@@ -44,11 +44,11 @@ App = React.createClass
             else
                 Dispatcher.findBookmarks()
 
-    showBookmark: (show) ->
-        @setState {show}
+    showOverlay: (bookmark_id) ->
+        @setState {overlay: bookmark_id}
 
-    showMinimized: (minimized) ->
-        @setState {minimized}
+    showMinimized: (bookmark_ids) ->
+        @setState {minimized: bookmark_ids}
 
     render: ->
         <div>
@@ -58,8 +58,8 @@ App = React.createClass
                 <SearchBookmarks q=@state.q />
             </div>
             <ListBookmarks />
-            {if @state.show
-                <ShowBookmark bookmark_id=@state.show />
+            {if @state.overlay
+                <BookmarkOverlay bookmark_id=@state.overlay />
             }
             <div className='minimized'>
                 {@state.minimized.map (minimized) ->
@@ -88,7 +88,7 @@ MinimizedBookmark = React.createClass
             }
         </div>
 
-ShowBookmark = React.createClass
+BookmarkOverlay = React.createClass
     contextTypes:
         location: React.PropTypes.object.isRequired
 
@@ -114,7 +114,7 @@ ShowBookmark = React.createClass
         query = @context.location.query
         query.min = forceArray query.min
         query.min.push @props.bookmark_id
-        query.show = null
+        query.overlay = null
         browserHistory.push {query}
 
     render: ->
