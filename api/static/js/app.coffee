@@ -89,6 +89,9 @@ MinimizedBookmark = React.createClass
         </div>
 
 ShowBookmark = React.createClass
+    contextTypes:
+        location: React.PropTypes.object.isRequired
+
     getInitialState: ->
         loading: true
         bookmark: null
@@ -107,9 +110,19 @@ ShowBookmark = React.createClass
     goBack: ->
         browserHistory.go Math.min(-1 * @state.depth, -1)
 
+    doMinimize: ->
+        query = @context.location.query
+        query.min = forceArray query.min
+        query.min.push @props.bookmark_id
+        query.show = null
+        browserHistory.push {query}
+
     render: ->
         <div className='overlay'>
-            <a onClick=@goBack className="close">&times;</a>
+            <div className='actions'>
+                <a onClick=@goBack>&times;</a>
+                <a onClick=@doMinimize>-</a>
+            </div>
             <div className='content'>
                 {if @state.loading
                     <p className='loading'>Loading...</p>
