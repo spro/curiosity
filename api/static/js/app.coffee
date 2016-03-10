@@ -9,7 +9,12 @@ SearchBookmarks = require './components/search-bookmarks'
 ListBookmarks = require './components/list-bookmarks'
 
 forceArray = (i) ->
-    if _.isArray(i) then i else [i]
+    if !i?
+        []
+    else if _.isArray(i)
+        i
+    else
+        [i]
 
 App = React.createClass
     getInitialState: ->
@@ -21,8 +26,7 @@ App = React.createClass
         query = @props.location.query
         @loadBookmarks query.q
         @showBookmark query.show
-        if query.min?
-            @showMinimized forceArray query.min
+        @showMinimized forceArray query.min
 
     componentWillReceiveProps: (new_props) ->
         query = new_props.location.query
@@ -30,7 +34,7 @@ App = React.createClass
             @loadBookmarks query.q
         if query.show != @state.show
             @showBookmark query.show
-        if query.min? and forceArray(query.min).join(',') != @state.minimized.join(',')
+        if forceArray(query.min).join(',') != @state.minimized.join(',')
             @showMinimized forceArray query.min
 
     loadBookmarks: (q) ->
