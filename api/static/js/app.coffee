@@ -110,7 +110,6 @@ BookmarkOverlay = React.createClass
     getInitialState: ->
         loading: true
         bookmark: null
-        depth: 0
 
     componentDidMount: ->
         Dispatcher.getBookmark(@props.bookmark_id).onValue @setBookmark
@@ -123,24 +122,22 @@ BookmarkOverlay = React.createClass
     setBookmark: (bookmark) ->
         @setState {bookmark, loading: false}
 
-    # Keep track of how many extra links have been loaded
-    didLoad: ->
-        @setState depth: @state.depth + 1
-
-    goBack: ->
-        browserHistory.go Math.min(-1 * @state.depth, -1)
+    doClose: ->
+        query = @context.location.query
+        delete query.overlay
+        browserHistory.push {query}
 
     doMinimize: ->
         query = @context.location.query
         query.min = forceArray query.min
         query.min.push @props.bookmark_id
-        query.overlay = null
+        delete query.overlay
         browserHistory.push {query}
 
     render: ->
         <div className='overlay'>
             <div className='actions'>
-                <a onClick=@goBack>&times;</a>
+                <a onClick=@doClose>&times;</a>
                 <a onClick=@doMinimize>-</a>
             </div>
             <div className='content'>
@@ -148,7 +145,7 @@ BookmarkOverlay = React.createClass
                     <p className='loading'>Loading...</p>
                 else
                     url = @state.bookmark.url
-                    <iframe ref='iframe' src=url onLoad=@didLoad />
+                    <iframe ref='iframe' src=url />
                 }
             </div>
         </div>
