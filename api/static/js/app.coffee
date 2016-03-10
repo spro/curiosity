@@ -21,7 +21,8 @@ App = React.createClass
         query = @props.location.query
         @loadBookmarks query.q
         @showBookmark query.show
-        @showMinimized forceArray query.min
+        if query.min?
+            @showMinimized forceArray query.min
 
     componentWillReceiveProps: (new_props) ->
         query = new_props.location.query
@@ -29,7 +30,7 @@ App = React.createClass
             @loadBookmarks query.q
         if query.show != @state.show
             @showBookmark query.show
-        if forceArray(query.min).join(',') != @state.minimized.join(',')
+        if query.min? and forceArray(query.min).join(',') != @state.minimized.join(',')
             @showMinimized forceArray query.min
 
     loadBookmarks: (q) ->
