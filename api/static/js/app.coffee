@@ -63,7 +63,7 @@ App = React.createClass
             }
             <div className='minimized'>
                 {@state.minimized.map (minimized) ->
-                    <MinimizedBookmark bookmark_id=minimized />
+                    <MinimizedBookmark bookmark_id=minimized key=minimized />
                 }
             </div>
         </div>
