@@ -69,6 +69,9 @@ App = React.createClass
         </div>
 
 MinimizedBookmark = React.createClass
+    contextTypes:
+        location: React.PropTypes.object.isRequired
+
     getInitialState: ->
         loading: true
         bookmark: null
@@ -79,12 +82,24 @@ MinimizedBookmark = React.createClass
     setBookmark: (bookmark) ->
         @setState {bookmark, loading: false}
 
+    openBookmark: (e) ->
+        if e.metaKey
+            window.open @props.bookmark.url, '_blank'
+        else
+            query = @context.location.query
+            query.min = forceArray(query.min).filter (bookmark_id) =>
+                bookmark_id != @props.bookmark_id
+            if query.overlay
+                query.min.push query.overlay
+            query.overlay = @props.bookmark_id
+            browserHistory.push {query}
+
     render: ->
         <div className='bookmark'>
             {if @state.loading
                 <span className='loading'>Loading...</span>
             else
-                <a className='title' title=@state.bookmark.title>{@state.bookmark.title}</a>
+                <a onClick=@openBookmark className='title' title=@state.bookmark.title>{@state.bookmark.title}</a>
             }
         </div>
 
@@ -99,6 +114,11 @@ BookmarkOverlay = React.createClass
 
     componentDidMount: ->
         Dispatcher.getBookmark(@props.bookmark_id).onValue @setBookmark
+
+    componentWillReceiveProps: (new_props) ->
+        if new_props.bookmark_id != @props.bookmark_id
+            @setState {loading: true, bookmark: null}
+            Dispatcher.getBookmark(new_props.bookmark_id).onValue @setBookmark
 
     setBookmark: (bookmark) ->
         @setState {bookmark, loading: false}

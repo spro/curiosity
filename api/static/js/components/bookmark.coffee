@@ -44,12 +44,12 @@ Bookmark = React.createClass
     toggleEditing: ->
         @setState editing: !@state.editing
 
-    openUrl: (e) ->
+    openBookmark: (e) ->
         if e.metaKey
             window.open @props.bookmark.url, '_blank'
         else
             query = @context.location.query
-            query.show = @props.bookmark._id
+            query.overlay = @props.bookmark._id
             browserHistory.push {query}
 
     render: ->
@@ -58,7 +58,7 @@ Bookmark = React.createClass
 
         <div className='bookmark'>
             <div className='title'>
-                <a onClick=@openUrl>{@props.bookmark.title || @props.bookmark.url}</a>
+                <a onClick=@openBookmark>{@props.bookmark.title || @props.bookmark.url}</a>
                 <span className='domain'>{@props.bookmark.domain}</span>
                 <div className='actions'>
                     <a onClick=@toggleEditing className='edit'>Edit</a>
