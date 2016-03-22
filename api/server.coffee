@@ -8,8 +8,12 @@ jwt_secret = 'fdsafdsa'
 
 login_token = (req, res, next) ->
     if token = req.session?.token
+        console.log '[login_token] has a token'
         user_id = jwt.decode token, jwt_secret
+        res.locals.user_id = user_id
+        next()
     else
+        console.log '[login_token] no token'
         next()
 
 app = polar
@@ -23,7 +27,11 @@ app.get '/login', (req, res) ->
 
 app.post '/login.json', (req, res) ->
     if req.body.password == 'test'
-        res.json success: true
+        user_id = 1
+        token = jwt.encode user_id, jwt_secret
+        req.session.token = token
+        req.session.save (err) ->
+            res.json success: true
     else
         res.json success: false, error: "Incorrect password"
 
