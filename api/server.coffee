@@ -52,21 +52,21 @@ app.post '/login.json', (req, res) ->
         else
             res.json success: false, error: "Incorrect password"
 
-app.get '/bookmarks.json', (req, res) ->
+app.get '/bookmarks.json', requireUser, (req, res) ->
     client.remote 'curiosity:data', 'findBookmarks', (err, bookmarks) ->
         res.json bookmarks
 
-app.get '/bookmarks/search.json', (req, res) ->
+app.get '/bookmarks/search.json', requireUser, (req, res) ->
     q = req.query.q
     client.remote 'curiosity:data', 'searchBookmarks', q, (err, bookmarks) ->
         res.json bookmarks
 
-app.get '/bookmarks/:bookmark_id.json', (req, res) ->
+app.get '/bookmarks/:bookmark_id.json', requireUser, (req, res) ->
     bookmark_id = req.params.bookmark_id
     client.remote 'curiosity:data', 'getBookmark', bookmark_id, (err, bookmark) ->
         res.json bookmark
 
-app.post '/bookmarks.json', (req, res) ->
+app.post '/bookmarks.json', requireUser, (req, res) ->
     new_bookmark =
         title: req.body.title
         url: req.body.url
@@ -74,7 +74,7 @@ app.post '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:engine', 'createBookmark', new_bookmark, (err, created_bookmark) ->
         res.json created_bookmark
 
-app.put '/bookmarks/:bookmark_id.json', (req, res) ->
+app.put '/bookmarks/:bookmark_id.json', requireUser, (req, res) ->
     bookmark_id = req.params.bookmark_id
     bookmark_update =
         title: req.body.title
@@ -84,18 +84,18 @@ app.put '/bookmarks/:bookmark_id.json', (req, res) ->
     client.remote 'curiosity:data', 'updateBookmark', bookmark_id, bookmark_update, (err, updated_bookmark) ->
         res.json updated_bookmark
 
-app.delete '/bookmarks/:bookmark_id.json', (req, res) ->
+app.delete '/bookmarks/:bookmark_id.json', requireUser, (req, res) ->
     bookmark_id = req.params.bookmark_id
     client.remote 'curiosity:data', 'deleteBookmark', bookmark_id, (err) ->
         res.json {ok: !err?}
 
-app.post '/bookmarks/:bookmark_id/tags.json', (req, res) ->
+app.post '/bookmarks/:bookmark_id/tags.json', requireUser, (req, res) ->
     bookmark_id = req.params.bookmark_id
     tag = req.body.tag
     client.remote 'curiosity:data', 'tagBookmark', bookmark_id, tag, (err) ->
         res.json {ok: !err?}
 
-app.delete '/bookmarks/:bookmark_id/tags/:tag.json', (req, res) ->
+app.delete '/bookmarks/:bookmark_id/tags/:tag.json', requireUser, (req, res) ->
     bookmark_id = req.params.bookmark_id
     tag = req.params.tag
     client.remote 'curiosity:data', 'untagBookmark', bookmark_id, tag, (err) ->
