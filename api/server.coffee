@@ -37,6 +37,9 @@ app = polar
 app.get '/login', (req, res) ->
     res.render 'login'
 
+app.get '/signup', (req, res) ->
+    res.render 'login'
+
 app.get '/logout', (req, res) ->
     req.session.destroy ->
         res.redirect '/login'
@@ -54,6 +57,22 @@ app.post '/login.json', (req, res) ->
                 res.json success: true
         else
             res.json success: false, error: "Incorrect password"
+
+app.post '/signup.json', (req, res) ->
+    username = req.body.username
+    email = req.body.email
+    password = req.body.password
+    password = bcrypt.hashSync(password, bcrypt_salt)
+
+    if username and email and password
+        client.remote 'curiosity:data', 'createUser', {username, email, password}, (err, user) ->
+            token = jwt.encode user._id, jwt_secret
+            req.session.token = token
+            req.session.save (err) ->
+                res.json success: true
+
+    else
+        res.json success: false, error: "All fields required"
 
 app.get '/bookmarks.json', requireUser, (req, res) ->
     user_id = res.locals.user._id

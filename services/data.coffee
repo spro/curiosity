@@ -50,6 +50,10 @@ getUser = (query, cb) ->
         query._id = mongo.ObjectID user_id
     db.collection('users').findOne query, cb
 
+createUser = (new_user, cb) ->
+    db.collection('users').insert new_user, (err, inserted) ->
+        cb err, inserted?.ops?[0] # Mongo driver insert response is weird
+
 new somata.Service 'curiosity:data', {
     findBookmarks
     getBookmark
@@ -60,4 +64,5 @@ new somata.Service 'curiosity:data', {
     tagBookmark
     untagBookmark
     getUser
+    createUser
 }
