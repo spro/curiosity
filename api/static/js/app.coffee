@@ -53,6 +53,7 @@ App = React.createClass
     render: ->
         <div>
             <h1>Curiosity Browser</h1>
+            <p className='right'>Logged in as <strong>{user.username}</strong></p>
             <div className='row'>
                 <AddBookmark />
                 <SearchBookmarks q=@state.q />

@@ -6,12 +6,19 @@ client = new somata.Client
 
 jwt_secret = 'fdsafdsa'
 
+users =
+    1: {username: 'tester'}
+
+getUser = (user_id, cb) ->
+    cb null, users[user_id]
+
 login_token = (req, res, next) ->
     if token = req.session?.token
         console.log '[login_token] has a token'
         user_id = jwt.decode token, jwt_secret
-        res.locals.user_id = user_id
-        next()
+        getUser user_id, (err, user) ->
+            res.locals.user = user
+            next()
     else
         console.log '[login_token] no token'
         next()
