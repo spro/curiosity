@@ -1,9 +1,31 @@
 polar = require 'polar'
 somata = require 'somata'
+jwt = require 'jwt-simple'
 
 client = new somata.Client
 
-app = polar port: 4748, debug: true
+jwt_secret = 'fdsafdsa'
+
+login_token = (req, res, next) ->
+    if token = req.session?.token
+        user_id = jwt.decode token, jwt_secret
+    else
+        next()
+
+app = polar
+    port: 4748
+    debug: true
+    session: secret: 'asdfasdf'
+    middleware: [login_token]
+
+app.get '/login', (req, res) ->
+    res.render 'login'
+
+app.post '/login.json', (req, res) ->
+    if req.body.password == 'test'
+        res.json success: true
+    else
+        res.json success: false, error: "Incorrect password"
 
 app.get '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:data', 'findBookmarks', (err, bookmarks) ->
