@@ -23,6 +23,12 @@ login_token = (req, res, next) ->
         console.log '[login_token] no token'
         next()
 
+requireUser = (req, res, next) ->
+    if res.locals.user?
+        next()
+    else
+        res.redirect '/login'
+
 app = polar
     port: 4748
     debug: true
@@ -91,7 +97,7 @@ app.delete '/bookmarks/:bookmark_id/tags/:tag.json', (req, res) ->
     client.remote 'curiosity:data', 'untagBookmark', bookmark_id, tag, (err) ->
         res.json {ok: !err?}
 
-app.get '/', (req, res) -> res.render 'app'
-app.get '/:page', (req, res) -> res.render 'app'
+app.get '/', requireUser, (req, res) -> res.render 'app'
+app.get '/:page', requireUser, (req, res) -> res.render 'app'
 
 app.start()
