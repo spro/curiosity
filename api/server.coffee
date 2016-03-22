@@ -1,10 +1,12 @@
 polar = require 'polar'
 somata = require 'somata'
 jwt = require 'jwt-simple'
+bcrypt = require 'bcrypt'
 
 client = new somata.Client
 
 jwt_secret = 'fdsafdsa'
+bcrypt_salt = '$2a$10$o1NWgDu7HjLaG.ULbOun6e'
 
 getUser = (user_id, cb) ->
     client.remote 'curiosity:data', 'getUser', {_id: user_id}, cb
@@ -42,6 +44,7 @@ app.get '/logout', (req, res) ->
 app.post '/login.json', (req, res) ->
     email = req.body.email
     password = req.body.password
+    password = bcrypt.hashSync(password, bcrypt_salt)
 
     client.remote 'curiosity:data', 'getUser', {email, password}, (err, user) ->
         if user?
