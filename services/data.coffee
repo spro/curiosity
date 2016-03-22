@@ -45,6 +45,11 @@ deleteBookmark = (bookmark_id, cb) ->
     query = {_id: mongo.ObjectID bookmark_id}
     db.collection('bookmarks').remove query, cb
 
+getUser = (query, cb) ->
+    if user_id = query._id
+        query._id = mongo.ObjectID user_id
+    db.collection('users').findOne query, cb
+
 new somata.Service 'curiosity:data', {
     findBookmarks
     getBookmark
@@ -54,4 +59,5 @@ new somata.Service 'curiosity:data', {
     deleteBookmark
     tagBookmark
     untagBookmark
+    getUser
 }

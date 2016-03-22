@@ -6,11 +6,8 @@ client = new somata.Client
 
 jwt_secret = 'fdsafdsa'
 
-users =
-    1: {username: 'tester'}
-
 getUser = (user_id, cb) ->
-    cb null, users[user_id]
+    client.remote 'curiosity:data', 'getUser', {_id: user_id}, cb
 
 login_token = (req, res, next) ->
     if token = req.session?.token
@@ -43,14 +40,15 @@ app.get '/logout', (req, res) ->
         res.redirect '/login'
 
 app.post '/login.json', (req, res) ->
-    if req.body.password == 'test'
-        user_id = 1
-        token = jwt.encode user_id, jwt_secret
-        req.session.token = token
-        req.session.save (err) ->
-            res.json success: true
-    else
-        res.json success: false, error: "Incorrect password"
+    password = req.body.password
+    client.remote 'curiosity:data', 'getUser', {password}, (err, user) ->
+        if user?
+            token = jwt.encode user._id, jwt_secret
+            req.session.token = token
+            req.session.save (err) ->
+                res.json success: true
+        else
+            res.json success: false, error: "Incorrect password"
 
 app.get '/bookmarks.json', (req, res) ->
     client.remote 'curiosity:data', 'findBookmarks', (err, bookmarks) ->
