@@ -53,12 +53,14 @@ app.post '/login.json', (req, res) ->
             res.json success: false, error: "Incorrect password"
 
 app.get '/bookmarks.json', requireUser, (req, res) ->
-    client.remote 'curiosity:data', 'findBookmarks', (err, bookmarks) ->
+    user_id = res.locals.user._id
+    client.remote 'curiosity:data', 'findBookmarks', {user_id}, (err, bookmarks) ->
         res.json bookmarks
 
 app.get '/bookmarks/search.json', requireUser, (req, res) ->
     q = req.query.q
-    client.remote 'curiosity:data', 'searchBookmarks', q, (err, bookmarks) ->
+    user_id = res.locals.user._id
+    client.remote 'curiosity:data', 'searchBookmarks', {user_id, q}, (err, bookmarks) ->
         res.json bookmarks
 
 app.get '/bookmarks/:bookmark_id.json', requireUser, (req, res) ->
@@ -70,6 +72,7 @@ app.post '/bookmarks.json', requireUser, (req, res) ->
     new_bookmark =
         title: req.body.title
         url: req.body.url
+        user_id: res.locals.user._id
 
     client.remote 'curiosity:engine', 'createBookmark', new_bookmark, (err, created_bookmark) ->
         res.json created_bookmark

@@ -9,20 +9,20 @@ db = new mongo.Db(
 
 db.open()
 
-findBookmarks = (cb) ->
-    db.collection('bookmarks').find().sort({_id: -1}).toArray cb
+findBookmarks = (query, cb) ->
+    db.collection('bookmarks').find(query).sort({_id: -1}).toArray cb
 
 getBookmark = (bookmark_id, cb) ->
     query = {_id: mongo.ObjectID bookmark_id}
     db.collection('bookmarks').findOne query, cb
 
-searchBookmarks = (q, cb) ->
-    title_query = {title: {$regex: q, $options: 'i'}}
-    summary_query = {summary: {$regex: q, $options: 'i'}}
-    url_query = {url: {$regex: q, $options: 'i'}}
-    tags_query = {tags: {$regex: q, $options: 'i'}}
-    query = {$or: [title_query, summary_query, url_query, tags_query]}
-    db.collection('bookmarks').find(query).sort({_id: -1}).toArray cb
+searchBookmarks = (query, cb) ->
+    title_query = {title: {$regex: query.q, $options: 'i'}}
+    summary_query = {summary: {$regex: query.q, $options: 'i'}}
+    url_query = {url: {$regex: query.q, $options: 'i'}}
+    tags_query = {tags: {$regex: query.q, $options: 'i'}}
+    search_query = {user_id, $or: [title_query, summary_query, url_query, tags_query]}
+    db.collection('bookmarks').find(search_query).sort({_id: -1}).toArray cb
 
 createBookmark = (new_bookmark, cb) ->
     db.collection('bookmarks').insert new_bookmark, (err, inserted) ->
