@@ -40,8 +40,10 @@ app.get '/logout', (req, res) ->
         res.redirect '/login'
 
 app.post '/login.json', (req, res) ->
+    email = req.body.email
     password = req.body.password
-    client.remote 'curiosity:data', 'getUser', {password}, (err, user) ->
+
+    client.remote 'curiosity:data', 'getUser', {email, password}, (err, user) ->
         if user?
             token = jwt.encode user._id, jwt_secret
             req.session.token = token
