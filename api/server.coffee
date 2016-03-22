@@ -38,6 +38,10 @@ app = polar
 app.get '/login', (req, res) ->
     res.render 'login'
 
+app.get '/logout', (req, res) ->
+    req.session.destroy ->
+        res.redirect '/login'
+
 app.post '/login.json', (req, res) ->
     if req.body.password == 'test'
         user_id = 1
