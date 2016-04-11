@@ -13,13 +13,11 @@ getUser = (user_id, cb) ->
 
 login_token = (req, res, next) ->
     if token = req.session?.token
-        console.log '[login_token] has a token'
         user_id = jwt.decode token, jwt_secret
         getUser user_id, (err, user) ->
             res.locals.user = user
             next()
     else
-        console.log '[login_token] no token'
         next()
 
 requireUser = (req, res, next) ->
